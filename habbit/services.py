@@ -17,3 +17,4 @@ class TelegramBot:
             }
         )
         response.raise_for_status()
+        

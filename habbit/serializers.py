@@ -11,7 +11,7 @@ class HabbitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Habbit
-        fields = ['__all__']
+        fields = '__all__'
 
     def validate(self, data):
         # Проверка одновременного заполнения полей вознаграждение и связанная_привычка
@@ -38,3 +38,4 @@ class HabbitListSerializer(serializers.ModelSerializer):
         model = Habbit
         fields = ['id', 'action', 'nice_feeling', 'periodicity',
                   'last_completed', 'is_public', 'owner']
+        

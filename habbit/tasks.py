@@ -33,3 +33,4 @@ def send_telegram_reminder(user, habbit):
         message = f'Пришло время выполнить свою привычку: {habbit.action}.' \
                   f'Вы установили, что это будет происходить каждые {habbit.periodicity} дней.'
         TelegramBot.send_message(user.telegram_chat_id, message)
+        

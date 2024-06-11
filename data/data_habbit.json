@@ -1,0 +1,1 @@
+[{"model": "habbit.habbit", "pk": 1, "fields": {"action": "Бег по утрам", "owner": 1, "nice_feeling": false, "periodicity": 1, "last_completed": null, "is_public": true, "place": "Парк", "duration": "00:02:00", "related_habbit": null, "reward": null}}]

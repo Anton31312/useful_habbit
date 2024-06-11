@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from datetime import timedelta
 import os
 from pathlib import Path
 from dotenv import load_dotenv
@@ -48,6 +47,9 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django_celery_beat',
     'corsheaders',
+
+    'habbit',
+    'users',
 
 ]
 
@@ -207,13 +209,6 @@ API_TELEGRAM_TOKEN = os.getenv('API_TELEGRAM_TOKEN')
 
 
 # Настройки для Celery
-# CELERY_BEAT_SCHEDULE = {
-#     'task-name': {
-#         'task': 'users.tasks.check_last_login',  # Путь к задаче
-#         'schedule': timedelta(weeks=4), 
-#     },
-# }
-
 # URL-адрес брокера сообщений
 CELERY_BROKER_URL = os.getenv('CACHE_LOCATION')
 
@@ -233,4 +228,3 @@ CELERY_ACCEPT_CONTENT = ['json', 'application/text']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_IMPORTS = ["habbit.tasks"]
-

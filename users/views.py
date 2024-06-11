@@ -19,3 +19,5 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             self.action = [IsAuthenticated]
         return [permission() for permission in self.permission_classes]
+    
+    

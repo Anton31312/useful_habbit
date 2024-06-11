@@ -53,3 +53,4 @@ class HabbitDestroyAPIView(generics.DestroyAPIView):
     queryset = Habbit.objects.all()
     serializer_class = HabbitSerializer
     permission_classes = [IsAuthenticated | IsOwner]
+    
