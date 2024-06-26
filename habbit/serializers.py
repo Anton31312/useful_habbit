@@ -14,16 +14,16 @@ class HabbitSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, data):
-        # Проверка одновременного заполнения полей вознаграждение и связанная_привычка
+        # Проверка одновременного заполнения полей вознаграждение и связанной привычки
         validate_reward_and_habbit(
             data.get('reward'), data.get('related_habbit')
         )
-        # Проверка того, что связанная привычка имеет признак приятной_привычки.
+        # Проверка того, что связанная привычка имеет признак приятной привычки.
         validate_pleasant_habbit(
             data.get('related_habbit'),
             data.get('related_habbit').nice_feeling if data.get("related_habbit") else False
         )
-        # Проверка того, что приятная привычка не может иметь награды или связанной с ней приятной_привычки.
+        # Проверка того, что приятная привычка не может иметь награды или связанной с ней приятной привычки.
         validate_enjoyable_habbit_without_reward_or_association(
             data['nice_feeling'], data.get('reward'), data.get('related_habbit')
         )

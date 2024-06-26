@@ -13,8 +13,10 @@ class HabbitAPITestCase(APITestCase):
         self.user = User.objects.create(email='test@test.ru')
         self.user.set_password('test_pass123')
         self.user.save()
+
         self.client.force_authenticate(user=self.user)
-        self.habbit = Habbit.objects.create(
+
+        self.public_habbit = Habbit.objects.create(
             owner=self.user,
             place='Тестовое место',
             duration='00:01:00',
@@ -34,6 +36,7 @@ class HabbitAPITestCase(APITestCase):
             response.status_code,
             status.HTTP_200_OK
         )
+
         self.assertEqual(
             response.json(),
             {
@@ -42,23 +45,23 @@ class HabbitAPITestCase(APITestCase):
                 'previous': None,
                 'results': [
                     {
-                        "id": self.habbit.id,
-                        "action": self.habbit.action,
-                        "nice_feeling": self.habbit.nice_feeling,
-                        "periodicity": self.habbit.periodicity,
-                        "last_completed": self.habbit.last_completed.strftime("%Y-%m-%d"),
-                        "is_public": self.habbit.is_public,
-                        "owner": self.habbit.owner.id,
+                        "id": self.public_habbit.id,
+                        "action": self.public_habbit.action,
+                        "nice_feeling": self.public_habbit.nice_feeling,
+                        "periodicity": self.public_habbit.periodicity,
+                        "last_completed": self.public_habbit.last_completed.strftime("%Y-%m-%d"),
+                        "is_public": self.public_habbit.is_public,
+                        "owner": self.public_habbit.owner.id,
                     }
                 ]
             }
         )
 
     def test_habbit_detail(self):
-        """ Тестирование извлечения привычки """
+        """ Тестирование получения привычки """
 
         response = self.client.get(
-            reverse('habbit:read_one_habbit', args=[self.habbit.id]))
+            reverse('habbit:read_one_habbit', args=[self.public_habbit.id]))
         self.assertEqual(
             response.status_code,
             status.HTTP_200_OK
@@ -66,17 +69,17 @@ class HabbitAPITestCase(APITestCase):
         self.assertEqual(
             response.json(),
             {
-                "id": self.habbit.id,
-                "action": self.habbit.action,
-                "nice_feeling": self.habbit.nice_feeling,
-                "periodicity": self.habbit.periodicity,
-                "last_completed": self.habbit.last_completed.strftime("%Y-%m-%d"),
-                "is_public": self.habbit.is_public,
-                "owner": self.habbit.owner.id,
-                "place": self.habbit.place,
-                "duration": self.habbit.duration,
-                "related_habbit": self.habbit.related_habbit,
-                "reward": self.habbit.reward
+                "id": self.public_habbit.id,
+                "action": self.public_habbit.action,
+                "nice_feeling": self.public_habbit.nice_feeling,
+                "periodicity": self.public_habbit.periodicity,
+                "last_completed": self.public_habbit.last_completed.strftime("%Y-%m-%d"),
+                "is_public": self.public_habbit.is_public,
+                "owner": self.public_habbit.owner.id,
+                "place": self.public_habbit.place,
+                "duration": self.public_habbit.duration,
+                "related_habbit": self.public_habbit.related_habbit,
+                "reward": self.public_habbit.reward
             }
         )
 
@@ -139,7 +142,7 @@ class HabbitAPITestCase(APITestCase):
             reward='Тестовое вознаграждение 4',
             is_public=True,
         )
-        response = self.client.patch(reverse('habbit:habbit_update', args=[self.habbit.id]), data=data)        
+        response = self.client.patch(reverse('habbit:habbit_update', args=[self.public_habbit.id]), data=data)        
         self.assertEqual(
             response.status_code,
             status.HTTP_200_OK
@@ -147,16 +150,16 @@ class HabbitAPITestCase(APITestCase):
         self.assertEqual(
             response.json(),
             {
-                "id": self.habbit.id,
+                "id": self.public_habbit.id,
                 "action": data['action'],
                 "nice_feeling": data['nice_feeling'],
                 "periodicity": data['periodicity'],
                 "is_public": data['is_public'],
-                "owner": self.habbit.owner.id,
-                "last_completed": self.habbit.last_completed.strftime("%Y-%m-%d"),
+                "owner": self.public_habbit.owner.id,
+                "last_completed": self.public_habbit.last_completed.strftime("%Y-%m-%d"),
                 "place": data['place'],
                 "duration": data['duration'],
-                "related_habbit": self.habbit.related_habbit,
+                "related_habbit": self.public_habbit.related_habbit,
                 "reward": data['reward'],
             }
         )
@@ -164,7 +167,7 @@ class HabbitAPITestCase(APITestCase):
     def test_habbit_destroy(self):
         """ Тестирование удаления привычки """
 
-        response = self.client.delete(reverse('habbit:habbit_delete', args=[self.habbit.id]))
+        response = self.client.delete(reverse('habbit:habbit_delete', args=[self.public_habbit.id]))
         self.assertEqual(
             response.status_code,
             status.HTTP_204_NO_CONTENT
